@@ -1,3 +1,6 @@
+`此plugin修改自 https://github.com/aruis/cordova-plugin-baidumaplocation，因与极光推送冲突故修改以下为原文：`
+
+
 # 百度地图定位Cordova插件，支持Android，IOS，ionic 1x 2x 均可使用
 
 ### UPDATE:
