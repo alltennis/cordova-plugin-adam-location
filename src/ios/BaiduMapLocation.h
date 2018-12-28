@@ -7,7 +7,7 @@
 #import <Cordova/CDV.h>
 
 #import <BaiduMapAPI_Base/BMKBaseComponent.h>
-#import <BaiduMapAPI_Location/BMKLocationComponent.h>
+#import <BMKLocationKit/BMKLocationComponent.h>
 #import <BaiduMapAPI_Search/BMKSearchComponent.h>
 
 @interface BaiduMapLocation : CDVPlugin<BMKLocationServiceDelegate, BMKGeoCodeSearchDelegate> {
