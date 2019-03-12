@@ -18,9 +18,38 @@
 
     _data = [[NSMutableDictionary alloc] init];
 
-    _locService = [[BMKLocationService alloc] init];
-    _locService.delegate = self;
+    // init _locationManager
+    //初始化BMKLocationManager(定位)的实例
+    _locationManager = [[BMKLocationManager alloc] init];
+    //设置BMKLocationService的代理
+    _locationManager.delegate = self;
 
+    //设定定位坐标系类型，默认为 BMKLocationCoordinateTypeGCJ02
+    _locationManager.coordinateType = BMKLocationCoordinateTypeBMK09LL;
+    _locationManager.distanceFilter = [distance.text doubleValue];
+    //设定定位精度，默认为 kCLLocationAccuracyBest
+    _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    //设定定位类型，默认为 CLActivityTypeAutomotiveNavigation
+    _locationManager.activityType = CLActivityTypeAutomotiveNavigation;
+    //指定定位是否会被系统自动暂停，默认为NO
+    _locationManager.pausesLocationUpdatesAutomatically = NO;
+    /**
+      是否允许后台定位，默认为NO。只在iOS 9.0及之后起作用。
+      设置为YES的时候必须保证 Background Modes 中的 Location updates 处于选中状态，否则会抛出异常。
+      由于iOS系统限制，需要在定位未开始之前或定位停止之后，修改该属性的值才会有效果。
+    */
+    _locationManager.allowsBackgroundLocationUpdates = NO;// YES需要项目配置，否则会报错，具体参考开发文档
+    /**
+      指定单次定位超时时间,默认为10s，最小值是2s。注意单次定位请求前设置。
+      注意: 单次定位超时时间从确定了定位权限(非kCLAuthorizationStatusNotDetermined状态)
+      后开始计算。
+    */
+    _locationManager.locationTimeout = 10;
+    _locationManager.reGeocodeTimeout = 10;
+    
+    _isNeedAddr = YES;
+
+    // init _geoCodeSerch
     _geoCodeSerch = [[BMKGeoCodeSearch alloc] init];
     _geoCodeSerch.delegate = self;
 }
@@ -28,7 +57,8 @@
 - (void)getCurrentPosition:(CDVInvokedUrlCommand*)command
 {
     _execCommand = command;
-    [_locService startUserLocationService];
+    _locationManager.locatingWithReGeocode = _isNeedAddr;
+    [_locationManager startUpdatingLocation];
 }
 
 - (void)didUpdateBMKUserLocation:(BMKUserLocation *)userLocation
@@ -57,9 +87,10 @@
             pt = (CLLocationCoordinate2D){userLocation.location.coordinate.latitude, userLocation.location.coordinate.longitude};
         }
 
+        //初始化请求参数类BMKReverseGeoCodeOption的实例
         BMKReverseGeoCodeOption *reverseGeocodeSearchOption = [[BMKReverseGeoCodeOption alloc]init];
-        reverseGeocodeSearchOption.reverseGeoPoint = pt;
-        BOOL flag = [_geoCodeSerch reverseGeoCode:reverseGeocodeSearchOption];
+        reverseGeocodeSearchOption.location = pt;
+        BOOL flag = [_geoCodeSerch reverseGeoCode:reverseGeoCodeOption];
     }
 }
 
@@ -92,7 +123,7 @@
 
         CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:_data];
         [result setKeepCallbackAsBool:TRUE];
-        [_locService stopUserLocationService];
+        [_locationManager stopUpdatingLocation];
         [self.commandDelegate sendPluginResult:result callbackId:_execCommand.callbackId];
         _execCommand = nil;
     }
