@@ -9,7 +9,7 @@
 #import <BMKLocationKit/BMKLocationComponent.h>
 #import <BaiduMapAPI_Base/BMKBaseComponent.h>
 #import <BaiduMapAPI_Search/BMKSearchComponent.h>
-#import <BaiduMapAPI_Map/BMKMapView.h>
+#import <BaiduMapAPI_Map/BMKMapComponent.h>
 
 @interface BaiduMapLocation : CDVPlugin<BMKMapViewDelegate, BMKLocationManagerDelegate> {
     //BMKLocationService* _locService;
