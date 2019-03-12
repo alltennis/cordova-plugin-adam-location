@@ -26,7 +26,7 @@
 
     //设定定位坐标系类型，默认为 BMKLocationCoordinateTypeGCJ02
     _locationManager.coordinateType = BMKLocationCoordinateTypeBMK09LL;
-    _locationManager.distanceFilter = [distance.text doubleValue];
+    //_locationManager.distanceFilter = [distance.text doubleValue];
     //设定定位精度，默认为 kCLLocationAccuracyBest
     _locationManager.desiredAccuracy = kCLLocationAccuracyBest;
     //设定定位类型，默认为 CLActivityTypeAutomotiveNavigation
@@ -88,13 +88,13 @@
         }
 
         //初始化请求参数类BMKReverseGeoCodeOption的实例
-        BMKReverseGeoCodeOption *reverseGeocodeSearchOption = [[BMKReverseGeoCodeOption alloc]init];
-        reverseGeocodeSearchOption.location = pt;
-        BOOL flag = [_geoCodeSerch reverseGeoCode:reverseGeoCodeOption];
+        BMKReverseGeoCodeSearchOption *reverseGeoCodeOption = [[BMKReverseGeoCodeSearchOption alloc] init];
+        reverseGeoCodeOption.location = pt;
+        BOOL flag = [_geoCodeSearch reverseGeoCode:reverseGeocodeSearchOption];
     }
 }
 
--(void) onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeResult *)result errorCode:(BMKSearchErrorCode)error
+-(void) onGetReverseGeoCodeResult:(BMKGeoCodeSearch *)searcher result:(BMKReverseGeoCodeSearchResult *)result errorCode:(BMKSearchErrorCode)error
 {
     if (error == 0) {        
 
