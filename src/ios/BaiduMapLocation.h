@@ -11,10 +11,10 @@
 #import <BaiduMapAPI_Search/BMKSearchComponent.h>
 #import <BaiduMapAPI_Map/BMKMapComponent.h>
 
-@interface BaiduMapLocation : CDVPlugin<BMKMapViewDelegate, BMKLocationManagerDelegate> {
+@interface BaiduMapLocation : CDVPlugin<BMKMapViewDelegate, BMKGeoCodeSearchDelegate, BMKLocationManagerDelegate> {
     //BMKLocationService* _locService;
-    BMKLocationManager _locationManager;
-    BMKGeoCodeSearch* _geoCodeSerch;
+    BMKLocationManager* _locationManager;
+    BMKGeoCodeSearch* _geoCodeSearch;
     CDVInvokedUrlCommand* _execCommand;
     NSMutableDictionary* _data;
     BOOL _isNeedAddr;

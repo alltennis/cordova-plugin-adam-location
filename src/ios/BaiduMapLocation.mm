@@ -50,8 +50,8 @@
     _isNeedAddr = YES;
 
     // init _geoCodeSerch
-    _geoCodeSerch = [[BMKGeoCodeSearch alloc] init];
-    _geoCodeSerch.delegate = self;
+    _geoCodeSearch = [[BMKGeoCodeSearch alloc] init];
+    _geoCodeSearch.delegate = self;
 }
 
 - (void)getCurrentPosition:(CDVInvokedUrlCommand*)command
@@ -90,7 +90,7 @@
         //初始化请求参数类BMKReverseGeoCodeOption的实例
         BMKReverseGeoCodeSearchOption *reverseGeoCodeOption = [[BMKReverseGeoCodeSearchOption alloc] init];
         reverseGeoCodeOption.location = pt;
-        BOOL flag = [_geoCodeSearch reverseGeoCode:reverseGeocodeSearchOption];
+        BOOL flag = [_geoCodeSearch reverseGeoCode:reverseGeoCodeOption];
     }
 }
 
